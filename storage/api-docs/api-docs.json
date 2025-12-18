@@ -12,6 +12,305 @@
         }
     ],
     "paths": {
+        "/api/v1/citas": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Get a list of all appointments",
+                "operationId": "60a2d0901d3bc53094b4b617a45ac681",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "No appointments found"
+                    }
+                }
+            }
+        },
+        "/api/v1/citas/store": {
+            "post": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Create a new appointment",
+                "operationId": "f0534e084728287d134f5737a28132f2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cliente_id",
+                                    "barbero_id",
+                                    "servicios_id",
+                                    "fecha_hora",
+                                    "hora_inicio",
+                                    "hora_fin",
+                                    "estado",
+                                    "precio_total"
+                                ],
+                                "properties": {
+                                    "cliente_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "barbero_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "servicios_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "fecha_hora": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-07-01 14:30:00"
+                                    },
+                                    "hora_inicio": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:30:00"
+                                    },
+                                    "hora_fin": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:00:00"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "pendiente"
+                                    },
+                                    "precio_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment created successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/citas/put/{id}": {
+            "put": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Update an existing appointment",
+                "operationId": "aec9d6a79e8e738aec97a57641e05890",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the appointment to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cliente_id",
+                                    "barbero_id",
+                                    "servicios_id",
+                                    "fecha_hora",
+                                    "hora_inicio",
+                                    "hora_fin",
+                                    "estado",
+                                    "precio_total"
+                                ],
+                                "properties": {
+                                    "cliente_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "barbero_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "servicios_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "fecha_hora": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-07-01 14:30:00"
+                                    },
+                                    "hora_inicio": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:30:00"
+                                    },
+                                    "hora_fin": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:00:00"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "pendiente"
+                                    },
+                                    "precio_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Appointment updated successfully"
+                    },
+                    "404": {
+                        "description": "Appointment not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/citas/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Delete an appointment",
+                "operationId": "2ab95b2b2f6cfe470de9e0b36b197858",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the appointment to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Appointment deleted successfully"
+                    },
+                    "404": {
+                        "description": "Appointment not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/citas/searchClienteCita": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Search appointments by client name",
+                "operationId": "3d872f6bf2bafe5e5e8d781d4e999c6f",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Client name to search for",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "John"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "No appointments found"
+                    }
+                }
+            }
+        },
+        "/api/v1/citas/searchBarberoCita": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Search appointments by barber name",
+                "operationId": "603fb9d03b81c1e974c6bf158a0483b2",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Barber name to search for",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Mike"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation"
+                    },
+                    "404": {
+                        "description": "No appointments found"
+                    }
+                }
+            }
+        },
+        "/api/v1/citas/searchFechaCita": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Search appointments by date",
+                "operationId": "502c2de67ba1628e8f69dacdf959ee73",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Date to search for (YYYY-MM-DD)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-07-01"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "No appointments found"
+                    }
+                }
+            }
+        },
         "/api/v1/register": {
             "post": {
                 "tags": [
@@ -159,13 +458,13 @@
                 ]
             }
         },
-        "api/v1/services": {
+        "/api/v1/services": {
             "get": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Get a list of all services",
-                "operationId": "c176b369e8929e216def91f5ebe3f7fb",
+                "operationId": "6fc5d3eeafcb1d8bb618835a878f0284",
                 "responses": {
                     "200": {
                         "description": "Successfull operation"
@@ -225,13 +524,13 @@
                 }
             }
         },
-        "api/v1/services/put/{id}": {
+        "/api/v1/services/put/{id}": {
             "put": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Update an existing service",
-                "operationId": "64333f74948c40568c79ccf1be3aa087",
+                "operationId": "64b346f12383d6a2e82574f5e06149f2",
                 "parameters": [
                     {
                         "name": "id",
@@ -286,13 +585,13 @@
                 }
             }
         },
-        "api/v1/services/delete/{id}": {
+        "/api/v1/services/delete/{id}": {
             "delete": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Delete a service",
-                "operationId": "cfaaf00c111dca0609cce5c933309264",
+                "operationId": "fa4b22651a155efea6ebe58b2682b08c",
                 "parameters": [
                     {
                         "name": "id",
@@ -315,13 +614,13 @@
                 }
             }
         },
-        "api/v1/services/search/{nombre}": {
+        "/api/v1/services/search/{nombre}": {
             "get": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Search services by nombre",
-                "operationId": "c8cd124b9984c31319bf8c4ea598d2a0",
+                "operationId": "05e79d46a359a08b5381a2f0b0e73a59",
                 "parameters": [
                     {
                         "name": "nombre",
@@ -343,6 +642,118 @@
                     }
                 }
             }
+        },
+        "/api/v1/usuarios": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Retrieve a list of all users",
+                "operationId": "306f2624b9d148337d4bed240d2dceb1",
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation"
+                    },
+                    "404": {
+                        "description": "No users found"
+                    }
+                }
+            }
+        },
+        "/api/v1/usuarios/store": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "description": "Create a new user with the provided information",
+                "operationId": "55b157d1e3d2585ac4a6a1a2f6f8cfeb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "role",
+                                    "phone_number",
+                                    "photo_url"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "doe@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "cliente"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+1234567890"
+                                    },
+                                    "photo_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "http://example.com/photo.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/usuarios/search/{nombre}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Search users by nombre",
+                "operationId": "b892e0d28bc71b555c4d4629db4dcee0",
+                "parameters": [
+                    {
+                        "name": "nombre",
+                        "in": "path",
+                        "description": "Nombre of the users to search for",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "John"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users found successfully"
+                    },
+                    "404": {
+                        "description": "No users found"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -355,6 +766,10 @@
     },
     "tags": [
         {
+            "name": "Appointments",
+            "description": "Appointments"
+        },
+        {
             "name": "Authentication",
             "description": "Authentication"
         },
@@ -365,6 +780,10 @@
         {
             "name": "Services",
             "description": "Services"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

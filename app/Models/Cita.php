@@ -54,13 +54,23 @@ class Cita extends Model
 		'precio_total'
 	];
 
-	public function user()
+	/**Definimos la relacion entre citas y usuarios (clientes) */
+	public function cliente()
 	{
 		return $this->belongsTo(User::class, 'cliente_id');
 	}
 
+	/**Definimos la relacion entre citas y servicios */
 	public function servicio()
 	{
 		return $this->belongsTo(Servicio::class);
+	}
+
+	/**Definimos esta relacion para que podamos traer el nombre del barbero 
+	 * en el buscador de citas.
+	 */
+	public function barbero()
+	{
+		return $this->belongsTo(User::class, 'barbero_id');
 	}
 }

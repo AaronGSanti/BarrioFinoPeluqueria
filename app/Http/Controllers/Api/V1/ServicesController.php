@@ -11,7 +11,7 @@ class ServicesController extends Controller
 {
     /**
      * @OA\Get(
-     *  path="api/v1/services",
+     *  path="/api/v1/services",
      *  tags={"Services"},
      *  summary="Get a list of all services",
      * 
@@ -92,7 +92,7 @@ class ServicesController extends Controller
 
     /**
      * @OA\Put(
-     *  path= "api/v1/services/put/{id}",
+     *  path= "/api/v1/services/put/{id}",
      *  tags= {"Services"},
      *  summary= "Update an existing service",
      * 
@@ -161,7 +161,7 @@ class ServicesController extends Controller
 
     /**
      * @OA\Delete(
-     *  path= "api/v1/services/delete/{id}",
+     *  path= "/api/v1/services/delete/{id}",
      *  tags= {"Services"},
      *  summary= "Delete a service",
      *  
@@ -201,7 +201,7 @@ class ServicesController extends Controller
 
     /**
      * @OA\Get(
-     *  path= "api/v1/services/search/{nombre}",
+     *  path= "/api/v1/services/search/{nombre}",
      *  tags= { "Services" },
      *  summary= "Search services by nombre",
      * 

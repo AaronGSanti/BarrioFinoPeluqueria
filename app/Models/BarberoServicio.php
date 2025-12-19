@@ -37,7 +37,7 @@ class BarberoServicio extends Model
 		'servicio_id'
 	];
 
-	public function user()
+	public function barbero()
 	{
 		return $this->belongsTo(User::class, 'barbero_id');
 	}

@@ -44,7 +44,24 @@ class HorariosBarbero extends Model
 		'estado'
 	];
 
-	public function user()
+	/**Esto me permite ingresar en la respuesta JSON ese campo para que salga como dia_nombre el JSON que le paso a continuacion. */
+	protected $appends = ['dia_nombre'];
+
+	//JSON formado para los dias de la semana.
+	public function getDiaNombreAttribute()
+	{
+		return [
+			1 => 'Lunes',
+			2 => 'Martes',
+			3 => 'Miercoles',
+			4 => 'Jueves',
+			5 => 'Viernes',
+			6 => 'Sabado',
+			7 => 'Domingo'
+		][$this->dia_semana] ?? null;
+	}
+
+	public function barbero()
 	{
 		return $this->belongsTo(User::class, 'barbero_id');
 	}

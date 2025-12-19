@@ -458,6 +458,391 @@
                 ]
             }
         },
+        "/api/v1/BarberoServicio": {
+            "get": {
+                "tags": [
+                    "Service Barber"
+                ],
+                "summary": "Get a list of barber-service relations",
+                "description": "Returns barber-service relations. Supports by barber name and    service",
+                "operationId": "604b24a47f581b962fe7d42c38cffc25",
+                "parameters": [
+                    {
+                        "name": "barbero",
+                        "in": "query",
+                        "description": "Filter by barber name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Juan"
+                        }
+                    },
+                    {
+                        "name": "servicio",
+                        "in": "query",
+                        "description": "Filter by service name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "corte"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagination page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v1/BarberoServicio/store": {
+            "post": {
+                "tags": [
+                    "Service Barber"
+                ],
+                "summary": "Create a new barber - service",
+                "operationId": "75af6d9f0040d927449c4e283ebddf9c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "barbero_id",
+                                    "servicio_id"
+                                ],
+                                "properties": {
+                                    "barbero_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "servicio_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Barber service created successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/BarberoServicio/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Service Barber"
+                ],
+                "summary": "Delete an service barber",
+                "operationId": "eec6da51630c865509122c4d995cd053",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the service barber to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Service barber deleted successfully"
+                    },
+                    "404": {
+                        "description": "Service barber not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/HorariosBarbero": {
+            "get": {
+                "tags": [
+                    "Barber Schedule"
+                ],
+                "summary": "List barber schedules with filters",
+                "description": "Returns barber schedules filtered by barber, day of week, status and time range.",
+                "operationId": "c55ac5abc3cc1bf1f16aa9b03babdc98",
+                "parameters": [
+                    {
+                        "name": "barbero_id",
+                        "in": "query",
+                        "description": "Filter by barber ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "barbero",
+                        "in": "query",
+                        "description": "Filter by barber name (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Juan"
+                        }
+                    },
+                    {
+                        "name": "dia_semana",
+                        "in": "query",
+                        "description": "Day of week (1=Lunes, 7=Domingo)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 7,
+                            "minimum": 1,
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "estado",
+                        "in": "query",
+                        "description": "Schedule status",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "disponible",
+                                "no_disponible"
+                            ],
+                            "example": "disponible"
+                        }
+                    },
+                    {
+                        "name": "desde",
+                        "in": "query",
+                        "description": "Filter schedules that end after this time",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "time",
+                            "example": "09:00"
+                        }
+                    },
+                    {
+                        "name": "hasta",
+                        "in": "query",
+                        "description": "Filter schedules that start before this time",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "time",
+                            "example": "18:00"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagination page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "422": {
+                        "description": "Invalid parameters"
+                    }
+                }
+            }
+        },
+        "/api/v1/HorariosBarbero/store": {
+            "post": {
+                "tags": [
+                    "Barber Schedule"
+                ],
+                "summary": "Create a new barber schedule",
+                "operationId": "df1c4b11d57d488644bee219629a08dd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "barbero_id",
+                                    "dia_semana",
+                                    "hora_inicio",
+                                    "hora_fin",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "barbero_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "dia_semana": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "hora_inicio": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:00:00"
+                                    },
+                                    "hora_fin": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "14:30:00"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "disponible",
+                                            "no_disponible"
+                                        ],
+                                        "example": "disponible"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Barber schedule created successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/HorariosBarbero/put/{id}": {
+            "put": {
+                "tags": [
+                    "Barber Schedule"
+                ],
+                "summary": "Update an existing barber schedule",
+                "operationId": "a19997e8f0519b34d62a3d1cf2bf92ce",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the barber schedule to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "barbero_id",
+                                    "dia_semana",
+                                    "hora_inicio",
+                                    "hora_fin",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "barbero_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "dia_semana": {
+                                        "description": "1=Lunes ... 7=Domingo",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "hora_inicio": {
+                                        "type": "string",
+                                        "example": "14:00:00"
+                                    },
+                                    "hora_fin": {
+                                        "type": "string",
+                                        "example": "14:30:00"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "disponible",
+                                            "no_disponible"
+                                        ],
+                                        "example": "no_disponible"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Barber schedule updated successfully"
+                    },
+                    "404": {
+                        "description": "Barber schedule not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/HorariosBarbero/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Barber Schedule"
+                ],
+                "summary": "Delete an barber schedule",
+                "operationId": "32f38a47d31daba4ce04061af8639c35",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the appointment to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Barber schedule deleted successfully"
+                    },
+                    "404": {
+                        "description": "Barber schedule not found"
+                    }
+                }
+            }
+        },
         "/api/v1/services": {
             "get": {
                 "tags": [
@@ -776,6 +1161,14 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Service Barber",
+            "description": "Service Barber"
+        },
+        {
+            "name": "Barber Schedule",
+            "description": "Barber Schedule"
         },
         {
             "name": "Services",

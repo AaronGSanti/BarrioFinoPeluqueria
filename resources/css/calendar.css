@@ -1,0 +1,11 @@
+#fp-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.flatpickr-calendar {
+    margin: 0 auto;
+    z-index: 99999;
+}

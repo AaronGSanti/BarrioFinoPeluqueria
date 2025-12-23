@@ -1,4 +1,5 @@
 import { Link } from "@inertiajs/react";
+import { openLoginModal } from "@/modals/login.modal";
 
 export default function Header({ canLogin, canRegister }) {
     return (
@@ -14,7 +15,7 @@ export default function Header({ canLogin, canRegister }) {
             <nav className="flex gap-3">
                 {canLogin && (
                     <Link
-                        href={route("login")}
+                        onClick={openLoginModal}
                         className="px-4 py-2 rounded-lg border border-white/15 hover:border-white/30"
                     >
                         Login

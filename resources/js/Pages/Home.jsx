@@ -30,7 +30,6 @@ export default function Home({ canLogin, canRegister }) {
                     <Section2 />
                     <Section3/>
                 </div>
-
             </div>
         </>
     );

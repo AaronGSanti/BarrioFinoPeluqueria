@@ -1,3 +1,5 @@
+import { openCalendario } from "@/modals/calendar";
+
 export default function Section2() {
     return (
         <section className="mx-auto max-w-6xl  grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -22,7 +24,12 @@ export default function Section2() {
                         <p className="text-7xl text-end mt-5">15€</p>
                     </div>
 
-                    <button className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm">
+                    <button
+                        onClick={() =>
+                            openCalendario({ servicio_id: 1, precio_total: 15 })
+                        }
+                        className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm"
+                    >
                         Reservar
                     </button>
                 </div>
@@ -49,7 +56,12 @@ export default function Section2() {
                         <p className="text-7xl text-end mt-5">10€</p>
                     </div>
 
-                    <button className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm">
+                    <button
+                        onClick={() =>
+                            openCalendario({ servicio_id: 2, precio_total: 10 })
+                        }
+                        className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm"
+                    >
                         Reservar
                     </button>
                 </div>
@@ -73,10 +85,15 @@ export default function Section2() {
                         <p className="mt-2 text-white/70 text-sm text-center">
                             Corte completo, barba perfilada y look impecable.
                         </p>
-                        <p className="text-7xl text-end mt-5">15€</p>
+                        <p className="text-7xl text-end mt-5">5€</p>
                     </div>
 
-                    <button className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm">
+                    <button
+                        onClick={() =>
+                            openCalendario({ servicio_id: 3, precio_total: 5 })
+                        }
+                        className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm"
+                    >
                         Reservar
                     </button>
                 </div>

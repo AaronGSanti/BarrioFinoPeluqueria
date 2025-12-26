@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
@@ -74,10 +75,12 @@ class UsersController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
-                'role' => 'required|in:admin,barbero,cliente',
-                'phone_number' => 'nullable|string|max:30',
+                'phone_number' => 'required|string|max:30',
                 'photo_url' => 'nullable|url'
             ]);
+
+            $validatedData['role'] = 'cliente';
+            $validatedData['password'] = Hash::make($validatedData['password']);
 
             $user = User::create($validatedData);
 
@@ -119,12 +122,12 @@ class UsersController extends Controller
     {
         $users = User::where('name', 'LIKE', '%' . $nombre . '%')->get();
 
-        if($users->isEmpty()){
+        if ($users->isEmpty()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No users found'
             ], 404);
-        }else{
+        } else {
             return response()->json([
                 'status' => 'success',
                 'data' => $users

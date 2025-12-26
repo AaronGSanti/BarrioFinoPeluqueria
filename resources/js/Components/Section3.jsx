@@ -3,13 +3,16 @@ export default function Section3() {
         <section className="mx-auto max-w-6xl grid grid-cols-3 md:grid-cols-3 gap-3 mt-5 items-center justify-center">
             <div>
                 <h3 className="text-6xl font-black text-white text-center mb-5">
-                    Ubicacion
+                    Informacion
                 </h3>
                 <h2 className="text-1xl mt-2 text-white/70  text-center">
                     Horario: Lunes - Sabado / 10:00 am - 08:00 pm
                 </h2>
                 <h2 className="text-1xl mt-2 text-white/70  text-center">
                     Correo electronico: barriofino@gmail.com
+                </h2>
+                <h2 className="text-1xl mt-2 text-white/70  text-center">
+                    Direccion: Calle Mayor 3 , 28921 - Alcorcon
                 </h2>
             </div>
 

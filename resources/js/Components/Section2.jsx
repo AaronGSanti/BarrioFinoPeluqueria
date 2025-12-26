@@ -1,6 +1,10 @@
 import { openCalendario } from "@/modals/calendar";
+import { usePage } from "@inertiajs/react";
 
 export default function Section2() {
+    const { auth } = usePage().props;
+    const cliente_id = auth?.user?.id;
+
     return (
         <section className="mx-auto max-w-6xl  grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* CARD 1 */}
@@ -26,7 +30,7 @@ export default function Section2() {
 
                     <button
                         onClick={() =>
-                            openCalendario({ servicio_id: 1, precio_total: 15 })
+                            openCalendario({ servicio_id: 2, precio_total: 15 , cliente_id})
                         }
                         className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm"
                     >
@@ -58,7 +62,7 @@ export default function Section2() {
 
                     <button
                         onClick={() =>
-                            openCalendario({ servicio_id: 2, precio_total: 10 })
+                            openCalendario({ servicio_id: 4, precio_total: 10 , cliente_id})
                         }
                         className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm"
                     >
@@ -90,7 +94,7 @@ export default function Section2() {
 
                     <button
                         onClick={() =>
-                            openCalendario({ servicio_id: 3, precio_total: 5 })
+                            openCalendario({ servicio_id: 5, precio_total: 5 , cliente_id})
                         }
                         className="mt-auto px-4 py-2 rounded-lg border border-white/15 hover:border-white/30 text-sm"
                     >

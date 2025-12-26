@@ -8,3 +8,7 @@ export async function loginRequest(data) {
 export async function logoutRequest() {
     return api.post("/logout");
 }
+
+export async function registerRequest(data) {
+    return api.post("/api/v1/usuarios/store", data);
+}

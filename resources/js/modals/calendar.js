@@ -1,12 +1,15 @@
 import flatpickr from "flatpickr";
 import confirmDatePlugin from "flatpickr/dist/plugins/confirmDate/confirmDate";
 import Swal from "sweetalert2";
-
 import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/plugins/confirmDate/confirmDate.css";
 import { calendarRequest } from "@/services/calendar.service";
 
-export async function openCalendario() {
+export async function openCalendario({
+    servicio_id,
+    precio_total,
+    cliente_id,
+}) {
     const { value, isConfirmed } = await Swal.fire({
         title: "Elige tu cita",
         html: `
@@ -19,22 +22,18 @@ export async function openCalendario() {
         cancelButtonText: "Cancelar",
         position: "center",
         focusConfirm: false,
-
         didOpen: () => {
             const popup = Swal.getPopup();
             const input = popup.querySelector("#swal-calendar");
             const htmlContainer = popup.querySelector(".swal2-html-container");
 
             flatpickr(input, {
-                inline: true, //Se ve dentro del modal
+                inline: true,
                 enableTime: true,
                 time_24hr: true,
                 dateFormat: "Y-m-d H:i",
                 minDate: "today",
-
-                //Evita que el calendario se renderice fuera del modal
                 appendTo: htmlContainer,
-
                 plugins: [
                     confirmDatePlugin({
                         confirmText: "OK",
@@ -44,12 +43,10 @@ export async function openCalendario() {
                 ],
             });
         },
-
         preConfirm: () => {
             const datetime = document
                 .getElementById("swal-calendar")
                 ?.value?.trim();
-
             if (!datetime) {
                 Swal.showValidationMessage("Selecciona fecha y hora");
                 return;
@@ -60,31 +57,30 @@ export async function openCalendario() {
 
     if (!isConfirmed) return;
 
-    //Llamamos a la API
+    if (!cliente_id) {
+        await Swal.fire({
+            icon: "warning",
+            title: "Inicia sesión",
+            text: "Debes iniciar sesión para reservar",
+        });
+        return;
+    }
+
     try {
-        const [fecha_hora, hm] = value.split("");
-        const hora_inicio = `${hm}:00`;
-
-        const cliente_id = window.authUser?.id;
-        if (!cliente_id) {
-            await Swal.fire({
-                icon: "warning",
-                title: "Inicia sesion",
-                text: "Debes iniciar sesion para reservar",
-            });
-            return;
-        }
-
+        // value = "YYYY-MM-DD HH:mm"
+        const [fecha_hora, hm] = value.split(" ");
         const payload = {
-            cliente_id,
+            cliente_id: Number(cliente_id),
             barbero_id: null,
-            servicio_id,
+            servicio_id: Number(servicio_id),
             fecha_hora,
-            hora_inicio,
+            hora_inicio: `${hm}:00`,
             hora_fin: null,
             estado: "pendiente",
-            precio_total,
+            precio_total: Number(precio_total),
         };
+
+        console.log("Payload cita:", payload);
 
         await calendarRequest(payload);
 
@@ -95,10 +91,11 @@ export async function openCalendario() {
             showConfirmButton: false,
         });
     } catch (error) {
+        const msg = "Error al crear la cita";
         Swal.fire({
             icon: "error",
-            title: `Error (${error.response?.status || "?"})`,
-            html: pretty,
+            title: "Oops hay un error",
+            text: msg,
         });
     }
 }

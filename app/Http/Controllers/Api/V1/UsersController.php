@@ -134,4 +134,57 @@ class UsersController extends Controller
             ], 200);
         }
     }
+
+    /**
+     * @OA\Get(
+     *   path="/api/v1/usuarios/barberos",
+     *   tags={"Users"},
+     *   summary="Get all barbers",
+     *
+     *   @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(property="status", type="string", example="success"),
+     *       @OA\Property(
+     *         property="data",
+     *         type="array",
+     *         @OA\Items(
+     *           type="object",
+     *           @OA\Property(property="id", type="integer", example=1),
+     *           @OA\Property(property="name", type="string", example="David"),
+     *           @OA\Property(property="role", type="string", example="barbero")
+     *         )
+     *       )
+     *     )
+     *   ),
+     *
+     *   @OA\Response(
+     *     response=404,
+     *     description="No barbers found",
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(property="status", type="string", example="error"),
+     *       @OA\Property(property="message", type="string", example="No barbers found")
+     *     )
+     *   )
+     * )
+     */
+    public function showBarbero()
+    {
+        $barberos = User::where('role', 'barbero')->get();
+
+        if ($barberos->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No barbers found'
+            ], 404);
+        } else {
+            return response()->json([
+                'status' => 'success',
+                'data' => $barberos
+            ], 200);
+        }
+    }
 }

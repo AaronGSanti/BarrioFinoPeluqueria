@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 
 use App\Models\Cita;
+use App\Models\User;
+use App\Notifications\CitaRegistrada;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -86,7 +88,28 @@ class AppointmentController extends Controller
                 'precio_total' => 'required|numeric|min:0'
             ]);
 
+            $exists = Cita::where('barbero_id', $request->barbero_id)
+                ->where('fecha_hora', $request->fecha_hora)
+                ->where('hora_inicio', $request->hora_inicio)
+                ->whereIn('estado', ['pendiente', 'confirmada'])
+                ->exists();
+
+            if ($exists) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Ese horario ya esta reservado"
+                ], 409);
+            }
+
             $appointments = Cita::create($validatedData);
+            //Traemos la cita con las relaciones para enviarlas en la notificacion
+            $appointments->load('barbero');
+
+            $cliente = User::find($validatedData['cliente_id']);
+            //Enviamos notificacion al cliente
+            if ($cliente) {
+                $cliente->notify(new CitaRegistrada($appointments));
+            }
 
             return response()->json([
                 'status' => 'success',

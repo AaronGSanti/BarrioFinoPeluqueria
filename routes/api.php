@@ -25,7 +25,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/usuarios', [UsersController::class, 'index']);
     Route::post('/usuarios/store', [UsersController::class, 'store']);
     Route::get('/usuarios/search/{nombre}', [UsersController::class, 'showNombre']);
-
+    Route::get('/usuarios/barberos', [UsersController::class, 'showBarbero']);
+    
     //Services routes
     Route::get('/services', [ServicesController::class, 'index']);
     Route::post('/services/store', [ServicesController::class, 'store']);

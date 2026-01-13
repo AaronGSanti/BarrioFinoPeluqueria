@@ -15,11 +15,20 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/admin/login', [AdminUsersController::class, 'index']);
+
+/**RUTAS PARA ADMIN USER */
+Route::get('/dashboard', [AdminUsersController::class, 'usersIndex'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+Route::post('/admin/users/store' , [AdminUsersController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.store');
+Route::delete('/admin/users/{id}', [AdminUsersController::class, 'delete'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.delete');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

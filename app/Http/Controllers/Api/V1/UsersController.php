@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
@@ -76,10 +77,14 @@ class UsersController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
                 'phone_number' => 'required|string|max:30',
-                'photo_url' => 'nullable|url'
+                'photo_url' => 'nullable|url',
+                'role' => [
+                    'nullable',
+                    Rule::in(['cliente', 'barbero', 'admin'])
+                ]
             ]);
 
-            $validatedData['role'] = 'cliente';
+            $validatedData['role'] = $validatedData['role'] ?? 'cliente';
             $validatedData['password'] = Hash::make($validatedData['password']);
 
             $user = User::create($validatedData);

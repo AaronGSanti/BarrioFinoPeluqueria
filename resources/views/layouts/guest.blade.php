@@ -14,8 +14,7 @@
 
     <!-- Scripts -->
     @viteReactRefresh
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @vite(['resources/js/app.jsx'])
 </head>
 
 <body class="font-sans text-gray-900 antialiased">

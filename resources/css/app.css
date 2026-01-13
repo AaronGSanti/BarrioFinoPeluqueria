@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Contenedor del formulario  - USUARIO MODAL*/
+.swal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Fila label + input */
+.swal-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Label fijo */
+.swal-label {
+    width: 110px; 
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Inputs flexibles */
+.swal-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+}

@@ -1,47 +1,43 @@
 import {
     ArrowDownTrayIcon,
-    ArrowUpTrayIcon,
     PencilSquareIcon,
     PlusIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
+import ServiceSearchAndDelete from "./ModalsServices/ComponentsServices/DeleteAndSearch";
+import openCreateServiceModal from "./ModalsServices/CreateServiceModal";
+import openDeleteServiceModal from "./ModalsServices/DeleteServiceModal";
+import openUpdateServiceModal from "./ModalsServices/UpdateServiceModal";
 
-import openCreateUserModal from "./ModalsUser/CreateUserModal";
-import openDeleteUserModal from "./ModalsUser/DeleteUserModal";
-import openUpdateUserModal from "./ModalsUser/UpdateUserModal";
-import SearchAndDelete from "./ModalsUser/ComponentsUser/DeleteAndSearch";
-
-const UserAdmin = ({ users = [] }) => {
+const ServiciosAdmin = ({ services = [] }) => {
     return (
         <>
             <div>
-                <h1 className="font-bold text-2xl">Panel de Usuario</h1>
+                <h1 className="font-bold text-2xl">Panel de Servicios</h1>
             </div>
 
             <div className="mt-1">
-                <p>Gestiona los usuarios de la aplicacion desde este panel.</p>
+                <p>Gestiona los servicios de la aplicacion desde este panel.</p>
             </div>
 
             {/**Buscador y reset */}
             <div className="mt-3 flex items-center gap-2">
-                <SearchAndDelete />
+                <ServiceSearchAndDelete />
             </div>
 
             <div className="flex flex-wrap gap-4 justify-end">
                 <button
                     className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                    onClick={openCreateUserModal}
+                    onClick={openCreateServiceModal}
                 >
                     <PlusIcon className="h-5 w-7 inline-block mr-1" />
-                    Agregar Usuario
+                    Agregar Servicio
                 </button>
 
-                <button
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                    onClick={() => {
-                        window.location.href = route("admin.users.export");
-                    }}
-                >
+                <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                onClick={() => {
+                    window.location.href = route("admin.service.export");
+                }}>
                     <ArrowDownTrayIcon className="h-5 w-7 inline-block mr-1" />
                     Exportar
                 </button>
@@ -52,29 +48,35 @@ const UserAdmin = ({ users = [] }) => {
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="px-4 py-3 text-left">Nombre</th>
-                            <th className="px-4 py-3 text-left">Email</th>
-                            <th className="px-4 py-3 text-left">Rol</th>
-                            <th className="px-4 py-3 text-left">Teléfono</th>
+                            <th className="px-4 py-3 text-left">Precio</th>
+                            <th className="px-4 py-3 text-left">Descripcion</th>
+                            <th className="px-4 py-3 text-left">Duracion</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y">
-                        {users.length === 0 ? (
+                        {services.length === 0 ? (
                             <tr>
                                 <td
                                     className="px-4 py-6 text-center text-gray-500"
                                     colSpan="4"
                                 >
-                                    No hay usuarios disponibles.
+                                    No hay servicios disponibles.
                                 </td>
                             </tr>
                         ) : (
-                            users.map((user) => (
-                                <tr key={user.id}>
-                                    <td className="px-4 py-3">{user.name}</td>
-                                    <td className="px-4 py-3">{user.email}</td>
-                                    <td className="px-4 py-3">{user.role}</td>
+                            services.map((service) => (
+                                <tr key={service.id}>
                                     <td className="px-4 py-3">
-                                        {user.phone_number}
+                                        {service.nombre}
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        {service.precio}
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        {service.descripcion}
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        {service.duracion}
                                     </td>
 
                                     <td className="px-4 py-3">
@@ -83,7 +85,9 @@ const UserAdmin = ({ users = [] }) => {
                                             <button
                                                 type="button"
                                                 onClick={() =>
-                                                    openUpdateUserModal(user)
+                                                    openUpdateServiceModal(
+                                                        service
+                                                    )
                                                 }
                                             >
                                                 <PencilSquareIcon className="h-5 w-5" />
@@ -93,7 +97,9 @@ const UserAdmin = ({ users = [] }) => {
                                             <button
                                                 type="button"
                                                 onClick={() =>
-                                                    openDeleteUserModal(user.id)
+                                                    openDeleteServiceModal(
+                                                        service.id
+                                                    )
                                                 }
                                             >
                                                 <TrashIcon className="h-5 w-5" />
@@ -110,4 +116,4 @@ const UserAdmin = ({ users = [] }) => {
     );
 };
 
-export default UserAdmin;
+export default ServiciosAdmin;

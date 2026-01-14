@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -16,18 +17,43 @@ Route::get('/', function () {
 });
 
 Route::get('/admin/login', [AdminUsersController::class, 'index']);
-
-/**RUTAS PARA ADMIN USER */
-Route::get('/dashboard', [AdminUsersController::class, 'usersIndex'])
+Route::get('/dashboard', [AdminUsersController::class, 'dashboardIndex'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-Route::post('/admin/users/store' , [AdminUsersController::class, 'store'])
+
+/**RUTAS PARA ADMIN USER */
+Route::post('/admin/users/store', [AdminUsersController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('admin.users.store');
-Route::delete('/admin/users/{id}', [AdminUsersController::class, 'delete'])
+Route::delete('/admin/users/delete/{id}', [AdminUsersController::class, 'delete'])
     ->middleware(['auth', 'verified'])
     ->name('admin.users.delete');
+Route::put('/admin/users/update/{id}', [AdminUsersController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.update');
+Route::get('/admin/users/get', [AdminUsersController::class, 'showUser'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.show');
+Route::get('/admin/users/export', [AdminUsersController::class, 'export'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.users.export');
 
+/**RUTAS PARA ADMIN SERVICES */
+Route::post('/admin/services/store', [AdminServiceController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.service.store');
+Route::delete('/admin/services/delete/{id}', [AdminServiceController::class, 'delete'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.service.delete');
+Route::put('/admin/services/update/{id}', [AdminServiceController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.service.update');
+Route::get('/admin/services/get', [AdminServiceController::class, 'showServices'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.service.show');
+Route::get('/admin/services/export', [AdminServiceController::class, 'export'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.service.export');
 
 
 Route::middleware('auth')->group(function () {

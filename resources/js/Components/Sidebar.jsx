@@ -33,6 +33,20 @@ export default function Sidebar({ active, onChange }) {
                 <li>
                     <button
                         type="button"
+                        onClick={() => onChange("servicios")}
+                        className={`w-full text-left px-3 py-2 rounded-lg ${
+                            active === "servicios"
+                                ? "bg-gray-900 text-white"
+                                : "hover:bg-gray-100"
+                        }`}
+                    >
+                        Servicios
+                    </button>
+                </li>
+
+                <li>
+                    <button
+                        type="button"
                         onClick={() => onChange("citas")}
                         className={`w-full text-left px-3 py-2 rounded-lg ${
                             active === "citas"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
+use App\Models\Cita;
 use App\Models\Servicio;
 use App\Models\User;
 use Exception;
@@ -29,10 +30,26 @@ class AdminUsersController extends Controller
         $services = Servicio::select('id', 'nombre', 'precio', 'descripcion', 'duracion')
             ->latest()
             ->get();
+        $citas = Cita::select('id', 'cliente_id', 'barbero_id', 'servicio_id', 'fecha_hora', 'precio_total', 'estado', 'hora_inicio')
+            ->with([
+                'cliente:id,name',
+                'barbero:id,name',
+                'servicio:id,nombre'
+            ])
+            ->latest()
+            ->get();
 
         return Inertia::render('Dashboard', [
             'users' => $users,
             'services' => $services,
+            'citas' => $citas,
+
+            'contadores' => [
+                'users' => $users->count(),
+                'services' => $services->count(),
+                'citas' => $citas->count()
+            ],
+
             'tab' => $tab
         ]);
     }
@@ -107,7 +124,7 @@ class AdminUsersController extends Controller
             }
 
             $user->update($validatedData);
-            return redirect()->route('dashboard' , ['tab' => 'users'])->with('success', 'User updated successfully.');
+            return redirect()->route('dashboard', ['tab' => 'users'])->with('success', 'User updated successfully.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 'error' => 'An error ocurred while processing your

@@ -8,7 +8,7 @@ import UserAdmin from "./AdminPages/UserAdmin";
 import CitasAdmin from "./AdminPages/CitasAdmin";
 import ServiciosAdmin from "./AdminPages/ServiciosAdmin";
 
-export default function Dashboard({ users = [], services = [] }) {
+export default function Dashboard({ users = [], services = [] , citas = [] , contadores = {}}) {
     const { url } = usePage();
 
     const getTabFromUrl = () => {
@@ -39,12 +39,12 @@ export default function Dashboard({ users = [], services = [] }) {
             <div className="flex min-h-screen">
                 <Sidebar active={active} onChange={handleChangeTab} />
                 <div className="flex-1 p-6">
-                    {active === "home" && <HomeAdmin />}
+                    {active === "home" && <HomeAdmin contadores={contadores} />}
                     {active === "users" && <UserAdmin users={users} />}
                     {active === "servicios" && (
                         <ServiciosAdmin services={services} />
                     )}
-                    {active === "citas" && <CitasAdmin />}
+                    {active === "citas" && <CitasAdmin citas={citas}/>}
                 </div>
             </div>
         </AuthenticatedLayout>

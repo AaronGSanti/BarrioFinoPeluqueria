@@ -35,30 +35,32 @@ export default function ServiceSearchAndDelete() {
     };
 
     return (
-        <div className="mt-1 flex items-center gap-2">
+        <div className="flex flex-wrap items-end gap-3 rounded-lg bg-white p-3 shadow">
             <input
                 type="text"
                 placeholder="Buscar servicio"
                 value={buscador}
                 onChange={handleChange}
-                className="border rounded px-3 py-2"
+                className="w-72 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
             />
             {/**Buscar */}
             <button
                 type="button"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                 onClick={handleSearch}
             >
                 <MagnifyingGlassIcon className="h-5 w-5" />
+                Buscar
             </button>
 
             {/**Limpiar */}
             <button
                 type="button"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                 onClick={handleDelete}
             >
-                <XMarkIcon className="w-5 h-5" />
+                <XMarkIcon className="h-5 w-5" />
+                Limpiar
             </button>
         </div>
     );

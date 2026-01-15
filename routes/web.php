@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\ProfileController;
@@ -55,6 +56,22 @@ Route::get('/admin/services/export', [AdminServiceController::class, 'export'])
     ->middleware(['auth', 'verified'])
     ->name('admin.service.export');
 
+/**RUTAS PARA ADMIN APPOINTMENT*/
+Route::post('/admin/citas/store', [AdminAppointmentController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.store');
+Route::delete('/admin/citas/delete/{id}', [AdminAppointmentController::class, 'delete'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.delete');
+Route::put('/admin/citas/update/{id}', [AdminAppointmentController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.update');
+Route::get('/admin/citas/get', [AdminAppointmentController::class, 'showCitas'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.show');
+Route::get('/admin/citas/export', [AdminAppointmentController::class, 'export'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.export');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

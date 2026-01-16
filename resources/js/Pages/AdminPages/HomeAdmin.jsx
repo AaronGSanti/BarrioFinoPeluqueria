@@ -11,7 +11,7 @@ const HomeAdmin = ( {contadores = {}}) => {
             {/* Header */}
             <div>
                 <h1 className="text-2xl font-bold text-gray-800">
-                    👋 Bienvenido al Panel de Administración
+                    Bienvenido al Panel de Administración
                 </h1>
                 <p className="mt-1 text-sm text-gray-500">
                     Aqui gestionaremos usuarios, citas y servicios desde un solo

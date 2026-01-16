@@ -7,8 +7,14 @@ import HomeAdmin from "./AdminPages/HomeAdmin";
 import UserAdmin from "./AdminPages/UserAdmin";
 import CitasAdmin from "./AdminPages/CitasAdmin";
 import ServiciosAdmin from "./AdminPages/ServiciosAdmin";
+import Footer from "@/Components/Footer";
 
-export default function Dashboard({ users = [], services = [] , citas = [] , contadores = {}}) {
+export default function Dashboard({
+    users = [],
+    services = [],
+    citas = [],
+    contadores = {},
+}) {
     const { url } = usePage();
 
     const getTabFromUrl = () => {
@@ -44,9 +50,10 @@ export default function Dashboard({ users = [], services = [] , citas = [] , con
                     {active === "servicios" && (
                         <ServiciosAdmin services={services} />
                     )}
-                    {active === "citas" && <CitasAdmin citas={citas}/>}
+                    {active === "citas" && <CitasAdmin citas={citas} />}
                 </div>
             </div>
+            <Footer/>
         </AuthenticatedLayout>
     );
 }

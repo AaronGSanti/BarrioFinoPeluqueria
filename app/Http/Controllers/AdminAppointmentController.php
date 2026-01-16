@@ -4,15 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Exports\AppointmentsExport;
 use App\Models\Cita;
+use App\Models\Servicio;
 use App\Models\User;
 use App\Notifications\CitaRegistrada;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminAppointmentController extends Controller
 {
+    public function cargarBarberos()
+    {
+        $barberos = User::query()
+            ->where('role', 'barbero')
+            ->select('id', 'name')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'data' => $barberos
+        ]);
+    }
+
+    public function cargarServicios()
+    {
+        $servicios = Servicio::query()
+            ->select('id', 'nombre')
+            ->orderBy('nombre')
+            ->get();
+
+        return response()->json([
+            'data' => $servicios
+        ]);
+    }
+
     public function store(Request $request)
     {
         try {
@@ -81,38 +108,24 @@ class AdminAppointmentController extends Controller
                 'servicio_id' => 'required|exists:servicios,id',
                 'fecha_hora' => 'required|date_format:Y-m-d',
                 'hora_inicio' => 'required|date_format:H:i:s',
-                'hora_fin' => 'required|date_format:H:i:s|after:hora_inicio',
+                'hora_fin' => 'nullable|date_format:H:i:s',
                 'estado' => 'required|in:pendiente,confirmada,cancelada,completada',
                 'precio_total' => 'required|numeric|min:0'
             ]);
 
-            if (!empty($validatedData['barbero_id'])) {
-                $conflict = Cita::query()
-                    ->where('barbero_id', $validatedData['barbero_id'])
-                    ->whereDate('fecha_hora', $validatedData['fecha_hora'])
-                    ->whereIn('estado', ['pendiente', 'confirmada'])
-                    ->whereTime('hora_inicio', '<', $validatedData['hora_fin'])
-                    ->whereTime('hora_fin', '>', $validatedData['hora_inicio'])
-                    ->where('id', '!=', $id)
-                    ->exists();
-
-                if ($conflict) {
-                    return back()->withErrors([
-                        'error' => 'Ese horario ya esta ocupado para este barbero.'
-                    ]);
-                }
-            }
-
-            $cita = Cita::find($id);
+            $cita = Cita::findOrFail($id);
             $cita->update($validatedData);
 
-            return redirect()->route('dashboard', ['tab' => 'citas'])->with('success', 'Appointment updated successfully');
+            return redirect()
+                ->route('dashboard', ['tab' => 'citas'])
+                ->with('success', 'Appointment updated successfully');
         } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 'error' => 'An error ocurred while processing your request'
             ]);
         }
     }
+
 
     public function showCitas(Request $request)
     {

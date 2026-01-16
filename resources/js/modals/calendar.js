@@ -54,9 +54,14 @@ export async function loadBarberos({ servicio_id, precio_total, cliente_id }) {
         <div style="text-align:left; margin-bottom:10px;">
         <label style="display:block; font-size:12px; opacity:.75; margin-bottom:6px;">Barbero</label>
         <select id="swal-barbero" class="swal2-input" style="width:100%; margin:0;">
-            ${barberos.map((b, idx) =>
-                `<option value="${b.id}" ${idx === 0 ? "selected" : ""}>${b.name}</option>`
-                ).join("")}
+            ${barberos
+                .map(
+                    (b, idx) =>
+                        `<option value="${b.id}" ${
+                            idx === 0 ? "selected" : ""
+                        }>${b.name}</option>`
+                )
+                .join("")}
         </select>
         </div>
 
@@ -70,6 +75,9 @@ export async function loadBarberos({ servicio_id, precio_total, cliente_id }) {
         cancelButtonText: "Cancelar",
         position: "center",
         focusConfirm: false,
+
+        showLoaderOnConfirm: true,
+        allowOutsideClick: () => !Swal.isLoading(),
 
         didOpen: async () => {
             const popup = Swal.getPopup();
@@ -95,7 +103,7 @@ export async function loadBarberos({ servicio_id, precio_total, cliente_id }) {
                     busy = [];
                 }
 
-                //Reconfigura flatpickr con los horarios ocupados
+                //Reconfiguramos flatpickr con los horarios ocupados
                 fp.set("disable", [
                     function (date) {
                         const yyyy2 = date.getFullYear();
@@ -138,13 +146,13 @@ export async function loadBarberos({ servicio_id, precio_total, cliente_id }) {
                 },
             });
 
-            //Cuando cambie el barbero seleccionado , recargar los horarios ocupados
+            //Cuando cambie el barbero seleccionado , recargamos los horarios ocupados
             selectBarbero.addEventListener("change", async () => {
                 await applyBusyTimes();
             });
         },
 
-        preConfirm: () => {
+        preConfirm: async () => {
             const datetime = document
                 .getElementById("swal-calendar")
                 .value.trim();
@@ -160,49 +168,46 @@ export async function loadBarberos({ servicio_id, precio_total, cliente_id }) {
                 return;
             }
 
-            return { datetime, barbero_id };
+            const [fecha_hora, hm] = datetime.split(" ");
+
+            const payload = {
+                cliente_id: Number(cliente_id),
+                barbero_id: Number(barbero_id),
+                servicio_id: Number(servicio_id),
+                fecha_hora,
+                hora_inicio: `${hm}:00`,
+                hora_fin: null,
+                estado: "pendiente",
+                precio_total: Number(precio_total),
+            };
+
+            try {
+                await calendarRequest(payload);
+                return true;
+            } catch (error) {
+                const status = error?.response?.status;
+                if (status === 409) {
+                    // (esto lo puedes dejar, pero no hace falta otro Swal)
+                    Swal.showValidationMessage(
+                        "Horario no disponible. Ya existe una cita en ese horario, elige otro."
+                    );
+                    return;
+                }
+
+                Swal.showValidationMessage(
+                    "Error al crear la cita. Intenta de nuevo."
+                );
+                return;
+            }
         },
     });
 
     if (!isConfirmed) return;
 
-    try {
-        const [fecha_hora, hm] = value.datetime.split(" ");
-
-        const payload = {
-            cliente_id: Number(cliente_id),
-            barbero_id: Number(value.barbero_id),
-            servicio_id: Number(servicio_id),
-            fecha_hora,
-            hora_inicio: `${hm}:00`,
-            hora_fin: null,
-            estado: "pendiente",
-            precio_total: Number(precio_total),
-        };
-
-        await calendarRequest(payload);
-
-        await Swal.fire({
-            icon: "success",
-            title: "Cita guardada",
-            timer: 1200,
-            showConfirmButton: false,
-        });
-    } catch (error) {
-        const status = error?.response?.status;
-        if (status === 409) {
-            await Swal.fire({
-                icon: "warning",
-                title: "Horario no disponible",
-                text: "Ya existe una cita en ese horario, elige otro.",
-            });
-            return;
-        }
-
-        Swal.fire({
-            icon: "error",
-            title: "Oops hay un error",
-            text: "Error al crear la cita",
-        });
-    }
+    await Swal.fire({
+        icon: "success",
+        title: "Cita guardada",
+        timer: 1200,
+        showConfirmButton: false,
+    });
 }

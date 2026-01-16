@@ -6,6 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import openDeleteAppointmentModal from "./ModalsAppointments/DeleteAppointmentModal";
 import AppointmentSearchAndDelete from "./ModalsAppointments/ComponentsAppointments/DeleteAndSearch";
+import openUpdateAppointmentsModal from "./ModalsAppointments/UpdateAppointmentsModal";
 
 const CitasAdmin = ({ citas = [] }) => {
     /**Formateo de dia para que se arregle en la vista. */
@@ -22,6 +23,14 @@ const CitasAdmin = ({ citas = [] }) => {
             hour: "2-digit",
             minute: "2-digit",
         });
+    };
+
+    /**Colores para los estados */
+    const estadoStyles = {
+        pendiente: "bg-yellow-100 text-yellow-800",
+        confirmada: "bg-blue-100 text-blue-800",
+        cancelada: "bg-red-100 text-red-800",
+        completada: "bg-green-100 text-green-800",
     };
 
     return (
@@ -97,7 +106,18 @@ const CitasAdmin = ({ citas = [] }) => {
                                     <td className="px-4 py-3">
                                         {formatHour(cita.hora_inicio)}
                                     </td>
-                                    <td className="px-4 py-3">{cita.estado}</td>
+                                    <td className="px-4 py-3">
+                                        <span
+                                            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold
+                                                ${
+                                                    estadoStyles[cita.estado] ??
+                                                    "bg-gray-100 text-gray-700"
+                                                }`}
+                                        >
+                                            {" "}
+                                            {cita.estado}
+                                        </span>
+                                    </td>
                                     <td className="px-4 py-3">
                                         {cita.precio_total}
                                     </td>
@@ -105,7 +125,14 @@ const CitasAdmin = ({ citas = [] }) => {
                                     <td className="px-4 py-3">
                                         <div className="flex items-center gap-3">
                                             {/**Editar */}
-                                            <button type="button">
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    openUpdateAppointmentsModal(
+                                                        cita
+                                                    )
+                                                }
+                                            >
                                                 <PencilSquareIcon className="h-5 w-5" />
                                             </button>
 

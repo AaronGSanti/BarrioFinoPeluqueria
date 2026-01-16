@@ -14,7 +14,7 @@ export default function AppointmentSearchAndDelete() {
     const handleSearch = () => {
         router.get(
             route("admin.citas.show"),
-            { buscador, tab: "citas" },
+            { buscador, desde , hasta,  tab: "citas" },
             {
                 preserveState: true,
                 replace: true,

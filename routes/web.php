@@ -69,6 +69,12 @@ Route::put('/admin/citas/update/{id}', [AdminAppointmentController::class, 'upda
 Route::get('/admin/citas/get', [AdminAppointmentController::class, 'showCitas'])
     ->middleware(['auth', 'verified'])
     ->name('admin.citas.show');
+Route::get('/admin/citas/barberos', [AdminAppointmentController::class, 'cargarBarberos'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.barberos');
+Route::get('/admin/citas/servicios', [AdminAppointmentController::class, 'cargarServicios'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin.citas.servicios');
 Route::get('/admin/citas/export', [AdminAppointmentController::class, 'export'])
     ->middleware(['auth', 'verified'])
     ->name('admin.citas.export');
